@@ -10,9 +10,20 @@ int main() {
     Symbole winner;
     Tictactoe tictactoe;
 
-    cout << tictactoe.ascii() << endl;
+    cout << endl;
+    cout << "===================" << endl;
+    cout << "||  Tic-tac-toe  ||" << endl;
+    cout << "===================" << endl;
+    cout << endl;
 
     do {
+        if (tictactoe.turn() == CROSS)
+            cout << "X's turn !" << endl;
+        else
+            cout << "O's turn !" << endl;
+
+        cout << tictactoe.ascii() << endl;
+
         cout << "Enter line number : ";
         cin >> x;
 
@@ -28,8 +39,9 @@ int main() {
             cout << "This square is not empty." << endl;
         }
 
-        cout << tictactoe.ascii() << endl;
     } while (!tictactoe.isGameOver(&winner));
+
+    cout << tictactoe.ascii() << endl;
 
     if (winner == EMPTY) {
         cout << "The game is a draw !" << endl;
