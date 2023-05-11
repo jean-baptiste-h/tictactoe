@@ -1,11 +1,10 @@
-#include "tictactoe.h"
-#include <algorithm>
+#include <stdlib.h>
+#include <__config>
 #include <exception>
-#include <ios>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
-#include <string>
+#include "tictactoe.h"
 
 using namespace std;
 

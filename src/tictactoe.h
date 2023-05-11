@@ -1,8 +1,9 @@
 #ifndef TICTACTOE
 #define TICTACTOE
 
+#include <__config>
 #include <exception>
-#include <string>
+#include <iosfwd>
 
 #define GRID_SIZE 3
 

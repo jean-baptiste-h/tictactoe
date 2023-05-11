@@ -1,4 +1,5 @@
 #include "tictactoe.h"
+#include <string>
 #include <stdexcept>
 
 Tictactoe::Tictactoe() {
