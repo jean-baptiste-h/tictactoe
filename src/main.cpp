@@ -1,9 +1,21 @@
 #include "tictactoe.h"
+#include <algorithm>
+#include <exception>
+#include <ios>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 #include <string>
 
 using namespace std;
+
+class InvalidInput : exception {
+    const char *what() const throw() {
+        return "input is not valid";
+    }
+};
+
+int readInt();
 
 int main() {
     int x, y;
@@ -23,12 +35,17 @@ int main() {
             cout << "O's turn !" << endl;
 
         cout << tictactoe.ascii() << endl;
-
+        
+        try {
         cout << "Enter line number : ";
-        cin >> x;
+        x = readInt();
 
         cout << "Enter column number : ";
-        cin >> y;
+        y = readInt();
+        } catch(const InvalidInput e) {
+            cout << "You must enter a valid number !" << endl;
+            continue;
+        }
 
         try {
             tictactoe.play(x, y);
@@ -51,4 +68,17 @@ int main() {
     }
 
     return EXIT_SUCCESS;
+}
+
+int readInt() {
+    int n;
+
+    cin >> n;
+
+    if (cin.fail()) {
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        throw InvalidInput();
+    }
+    return n;
 }
