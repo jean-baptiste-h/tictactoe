@@ -10,11 +10,14 @@
 
 using namespace std;
 
-class SquareNotEmpty: exception {
-    public:
-        const char* what() {
-            return "square is not empty.";
-        }
+class SquareNotEmpty : exception {
+  public:
+    virtual const char *what() const noexcept { return "square is not empty."; }
+};
+
+class EmptyHistory : exception {
+  public:
+    virtual const char *what() const noexcept { return "history is empty"; }
 };
 
 enum Symbole {
@@ -29,21 +32,20 @@ struct coord {
 
 class Tictactoe {
 
-    private:
-        Symbole grid[GRID_SIZE][GRID_SIZE];
-        bool lastIsX;
-        bool isFull();
-        void initGrid();
-        stack<coord> history;
+  private:
+    Symbole grid[GRID_SIZE][GRID_SIZE];
+    bool lastIsX;
+    bool isFull();
+    void initGrid();
+    stack<coord> history;
 
-    public:
-        Tictactoe();
-        Symbole turn();
-        bool isGameOver(Symbole *winner);
-        void play(int x, int y);
-        string ascii();
-        void undo();
-
+  public:
+    Tictactoe();
+    Symbole turn();
+    bool isGameOver(Symbole *winner);
+    void play(coord);
+    string ascii();
+    void undo();
 };
 
 #endif

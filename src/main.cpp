@@ -1,23 +1,21 @@
-#include <stdlib.h>
+#include "tictactoe.h"
 #include <__config>
 #include <exception>
 #include <iostream>
 #include <limits>
 #include <stdexcept>
-#include "tictactoe.h"
+#include <stdlib.h>
 
 using namespace std;
 
 class InvalidInput : exception {
-    const char *what() const throw() {
-        return "input is not valid";
-    }
+    const char *what() const throw() { return "input is not valid"; }
 };
 
 int readInt();
 
 int main() {
-    int x, y;
+    coord c;
     Symbole winner;
     Tictactoe tictactoe;
 
@@ -34,20 +32,20 @@ int main() {
             cout << "O's turn !" << endl;
 
         cout << tictactoe.ascii() << endl;
-        
-        try {
-        cout << "Enter line number : ";
-        x = readInt();
 
-        cout << "Enter column number : ";
-        y = readInt();
-        } catch(const InvalidInput e) {
+        try {
+            cout << "Enter row number : ";
+            c.row = readInt();
+
+            cout << "Enter column number : ";
+            c.col = readInt();
+        } catch (const InvalidInput e) {
             cout << "You must enter a valid number !" << endl;
             continue;
         }
 
         try {
-            tictactoe.play(x, y);
+            tictactoe.play(c);
         } catch (const invalid_argument e) {
             cout << "Line and column number must be between 0 and 2 included !"
                  << endl;

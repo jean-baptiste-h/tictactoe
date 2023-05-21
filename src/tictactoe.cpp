@@ -59,13 +59,13 @@ bool Tictactoe::isGameOver(Symbole *winner) {
     return res || isFull();
 }
 
-void Tictactoe::play(int x, int y) {
-    if ((x < 0 || x >= GRID_SIZE) || (y < 0 || y >= GRID_SIZE))
+void Tictactoe::play(coord c) {
+    if ((c.row < 0 || c.row >= GRID_SIZE) || (c.col < 0 || c.col >= GRID_SIZE))
         throw invalid_argument("x and y must be between 0 and 2 included.");
-    if (grid[x][y] != EMPTY)
+    if (grid[c.row][c.col] != EMPTY)
         throw SquareNotEmpty();
-    grid[x][y] = turn();
-    history.push({x, y});
+    grid[c.row][c.col] = turn();
+    history.push(c);
     lastIsX = !lastIsX;
 }
 
@@ -112,6 +112,8 @@ bool Tictactoe::isFull() {
 }
 
 void Tictactoe::undo() {
+    if (history.empty())
+        throw EmptyHistory();
     coord c = history.top();
     grid[c.row][c.col] = EMPTY;
     history.pop();
