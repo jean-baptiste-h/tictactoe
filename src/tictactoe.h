@@ -28,10 +28,10 @@ class Tictactoe {
         Symbole grid[GRID_SIZE][GRID_SIZE];
         bool lastIsX;
         bool isFull();
+        void initGrid();
 
     public:
         Tictactoe();
-        void initGrid();
         Symbole turn();
         bool isGameOver(Symbole *winner);
         void play(int x, int y);
