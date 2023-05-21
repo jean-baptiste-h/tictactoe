@@ -4,6 +4,7 @@
 #include <__config>
 #include <exception>
 #include <iosfwd>
+#include <stack>
 
 #define GRID_SIZE 3
 
@@ -22,6 +23,10 @@ enum Symbole {
     CIRCLE,
 };
 
+struct coord {
+    int row, col;
+};
+
 class Tictactoe {
 
     private:
@@ -29,13 +34,15 @@ class Tictactoe {
         bool lastIsX;
         bool isFull();
         void initGrid();
+        stack<coord> history;
 
     public:
         Tictactoe();
         Symbole turn();
         bool isGameOver(Symbole *winner);
         void play(int x, int y);
-        string ascii(); 
+        string ascii();
+        void undo();
 
 };
 

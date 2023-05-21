@@ -1,6 +1,6 @@
 #include "tictactoe.h"
-#include <string>
 #include <stdexcept>
+#include <string>
 
 Tictactoe::Tictactoe() {
     lastIsX = false;
@@ -65,6 +65,7 @@ void Tictactoe::play(int x, int y) {
     if (grid[x][y] != EMPTY)
         throw SquareNotEmpty();
     grid[x][y] = turn();
+    history.push({x, y});
     lastIsX = !lastIsX;
 }
 
@@ -108,4 +109,11 @@ bool Tictactoe::isFull() {
     }
 
     return res;
+}
+
+void Tictactoe::undo() {
+    coord c = history.top();
+    grid[c.row][c.col] = EMPTY;
+    history.pop();
+    lastIsX = !lastIsX;
 }
