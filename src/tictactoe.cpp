@@ -1,6 +1,8 @@
 #include "tictactoe.h"
+#include <cstdlib>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 Tictactoe::Tictactoe() {
     lastIsX = false;
@@ -118,4 +120,79 @@ void Tictactoe::undo() {
     grid[c.row][c.col] = EMPTY;
     history.pop();
     lastIsX = !lastIsX;
+}
+
+bool Tictactoe::winningMove(coord c) {
+    bool res = false;
+    Symbole winner;
+    bool gameover;
+
+    play(c);
+    gameover = isGameOver(&winner);
+    undo();
+    if (gameover)
+        if (winner == turn())
+            res = true;
+
+    return res;
+}
+
+void Tictactoe::autoPlay() {
+    int i, j;
+    coord c;
+    bool found = false;
+    Symbole winner;
+
+    // check if I can win
+    for (i = 0; i < GRID_SIZE && !found; i++) {
+        for (j = 0; j < GRID_SIZE && !found; j++) {
+            if (grid[i][j] == EMPTY) {
+                c.row = i;
+                c.col = j;
+                if (winningMove(c))
+                    found = true;
+            }
+        }
+    }
+
+    // check if the opponent can win
+    if (!found) {
+        lastIsX = !lastIsX;
+        for (i = 0; i < GRID_SIZE && !found; i++) {
+            for (j = 0; j < GRID_SIZE && !found; j++) {
+                if (grid[i][j] == EMPTY) {
+                    c.row = i;
+                    c.col = j;
+                    if (winningMove(c))
+                        found = true;
+                }
+            }
+        }
+        lastIsX = !lastIsX;
+    }
+
+    if (!found) {
+        // play in the center square if possible
+        if (grid[1][1] == EMPTY) {
+            c.row = 1;
+            c.col = 1;
+        } else {
+            // play in a random square
+            int n;
+            vector<coord> emptySquares;
+            for(i=0; i<GRID_SIZE; i++) {
+                for(j=0; j<GRID_SIZE; j++) {
+                    if(grid[i][j]==EMPTY) {
+                        c.row = i;
+                        c.col = j;
+                        emptySquares.push_back(c);
+                    }
+                }
+            }
+            n = (rand()*emptySquares.size()) / RAND_MAX;
+            c = emptySquares[n];
+        }
+    }
+
+    play(c);
 }

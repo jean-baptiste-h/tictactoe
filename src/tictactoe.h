@@ -20,6 +20,11 @@ class EmptyHistory : exception {
     virtual const char *what() const noexcept { return "history is empty"; }
 };
 
+class GameIsOver : exception {
+  public:
+    virtual const char *what() const noexcept { return "The game is over"; }
+};
+
 enum Symbole {
     EMPTY,
     CROSS,
@@ -35,9 +40,10 @@ class Tictactoe {
   private:
     Symbole grid[GRID_SIZE][GRID_SIZE];
     bool lastIsX;
+    stack<coord> history;
     bool isFull();
     void initGrid();
-    stack<coord> history;
+    bool winningMove(coord);
 
   public:
     Tictactoe();
@@ -46,6 +52,7 @@ class Tictactoe {
     void play(coord);
     string ascii();
     void undo();
+    void autoPlay();
 };
 
 #endif
